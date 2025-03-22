@@ -142,6 +142,35 @@ class ProtoNet:
             # accuracy_query_batch.
 
             ### START CODE HERE ###
+            def compute(embeddings, labels):
+                prototypes = []
+                unique_labels = torch.unique(labels)
+                for label in unique_labels:
+                    class_embeddings = embeddings[labels == label]
+                    prototypes.append(class_embeddings.mean(dim=0))
+                return torch.stack(prototypes)
+
+            with torch.no_grad():
+                support_embeddings = self._network(images_support)
+
+            query_embeddings = self._network(images_query)
+
+            with torch.no_grad():
+                prototypes = compute(support_embeddings, labels_support)
+
+            distances_support = ((support_embeddings.unsqueeze(1) - prototypes.unsqueeze(0)) ** 2).sum(dim=2)
+            distances_query = ((query_embeddings.unsqueeze(1) - prototypes.unsqueeze(0)) ** 2).sum(dim=2)
+
+            loss_support = F.cross_entropy(-distances_support, labels_support)
+            loss_query = F.cross_entropy(-distances_query, labels_query)
+            loss = loss_support + loss_query
+
+            acc_support = util.score(-distances_support, labels_support)
+            acc_query = util.score(-distances_query, labels_query)
+
+            loss_batch.append(loss)
+            accuracy_support_batch.append(acc_support)
+            accuracy_query_batch.append(acc_query)
             ### END CODE HERE ###
         return (
             torch.mean(torch.stack(loss_batch)),
