@@ -1,0 +1,28 @@
+# Package dependencies for XCS330_CUDA
+
+cloudpickle==3.0.0
+cycler==0.11.0
+h5py==3.12.1
+lockfile==0.12.2
+opt-einsum==3.4.0
+packaging==24.2
+pandas==2.2.3
+pickleshare==0.7.5
+python-dateutil==2.9.0.post0
+requests==2.32.3
+scipy==1.15.1
+six==1.16.0
+scikit-learn==1.6.1
+tensorboard==2.18.0
+pytest==7.4.4
+imageio==2.37.0
+svglib==1.5.1
+matplotlib==3.10.0
+googledrivedownloader==1.1.0
+timeout_decorator==0.5.0
+torch==2.5.1+cu124 --find-links https://download.pytorch.org/whl/torch
+rouge-score==0.1.2
+huggingface-hub==0.28.0
+transformers==4.48.1
+datasets==3.2.0
+numpy==2.2.2
